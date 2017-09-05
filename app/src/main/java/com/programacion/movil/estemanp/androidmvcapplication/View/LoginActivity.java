@@ -14,21 +14,22 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText userName;
     EditText password;
-    ApplicationController appController;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        appController =(ApplicationController)getApplication();
-
         userName=(android.widget.EditText) this.findViewById(R.id.editUsername);
         password=(android.widget.EditText) this.findViewById(R.id.editPassword);
     }
 
     public void login(View view) {
-        appController.authenticate(userName.getText().toString(),password.getText().toString());
+        if(ApplicationController.getInstance().isValidUser(userName.getText().toString(),password.getText().toString())) {
+            Intent intent = new Intent(this, LandingActivity.class);
+            startActivity(intent);
+        }else{
+            Toast.makeText(this, "El usuario y contraseña no coinciden", Toast.LENGTH_SHORT).show();
+        }
     }
 }
